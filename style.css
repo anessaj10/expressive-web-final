@@ -51,7 +51,8 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Jost', sans-serif;
-  font-weight: 200;
+  font-weight: 300;
+  font-synthesis: none;
   min-height: 100vh;
   overflow: hidden;
 }
@@ -166,6 +167,7 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(3.5rem, 10vw, 7rem);
   font-weight: 300;
+  text-rendering: geometricPrecision;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   background: linear-gradient(135deg, #fff 0%, #c9a96e 40%, #a78bde 70%, #fff 100%);
@@ -379,6 +381,7 @@ body.stay-here #deepCardWrapper {
   font-style: italic;
   font-size: clamp(1.1rem, 3vw, 1.5rem);
   font-weight: 300;
+  text-rendering: geometricPrecision;
   text-align: center;
   color: rgba(232,224,213,0.75);
   line-height: 1.7;
@@ -499,7 +502,7 @@ body.stay-here #deepCardWrapper {
   border: 1px solid rgba(232,224,213,0.3);
   color: var(--text);
   font-family: 'Jost', sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   font-size: 0.75rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -950,7 +953,7 @@ body.stay-here #deepCardWrapper {
   border: 1px solid rgba(232,224,213,0.2);
   color: rgba(232,224,213,0.6);
   font-family: 'Jost', sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   font-size: 0.7rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
