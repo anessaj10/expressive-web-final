@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prism — A Color Reading</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── BACKGROUND LAYERS ── -->
+  <div class="bg-layer" id="bgLayer"></div>
+  <div class="stars" id="stars"></div>
+  <div class="water" id="water">
+    <div class="ripple-line" style="--spd:7s;  --delay:0s;   bottom:180px;"></div>
+    <div class="ripple-line" style="--spd:9s;  --delay:1.5s; bottom:140px;"></div>
+    <div class="ripple-line" style="--spd:11s; --delay:3s;   bottom:100px;"></div>
+    <div class="ripple-line" style="--spd:8s;  --delay:0.5s; bottom:60px;"></div>
+    <div class="ripple-line" style="--spd:13s; --delay:2s;   bottom:20px;"></div>
+  </div>
+  <div class="fog" id="fog"></div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 1 — Landing
+       Two paths: choose by color, or reflect
+  ══════════════════════════════════════ -->
+  <div class="screen active" id="screen-landing">
+
+    <div class="prism-title">Prism</div>
+    <div class="prism-subtitle">A Color Reading</div>
+
+    <div class="prism-visual" id="prismVisual">
+      <svg class="prism-svg" width="160" height="160" viewBox="0 0 160 160" fill="none">
+        <polygon points="80,10 20,130 140,130" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+        <line class="prism-beam-in" x1="14" y1="70" x2="55" y2="70" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <line class="prism-ray" x1="140" y1="130" x2="168" y2="108" stroke="#FF2400"  stroke-width="1.5" opacity="0.85"/>
+        <line class="prism-ray" x1="140" y1="130" x2="170" y2="118" stroke="#FF7F00"  stroke-width="1.5" opacity="0.85"/>
+        <line class="prism-ray" x1="140" y1="130" x2="171" y2="130" stroke="#FFD700"  stroke-width="1.5" opacity="0.85"/>
+        <line class="prism-ray" x1="140" y1="130" x2="170" y2="140" stroke="#4CAF50"  stroke-width="1.5" opacity="0.85"/>
+        <line class="prism-ray" x1="140" y1="130" x2="167" y2="150" stroke="#1E90FF"  stroke-width="1.5" opacity="0.85"/>
+        <line class="prism-ray" x1="140" y1="130" x2="161" y2="158" stroke="#BF5FFF"  stroke-width="1.5" opacity="0.85"/>
+        <line class="prism-ray" x1="140" y1="130" x2="153" y2="164" stroke="#FF1493"  stroke-width="1.5" opacity="0.85"/>
+      </svg>
+    </div>
+
+    <p class="landing-text">
+      The color we gravitate towards<br>
+      can reflect more than we realize.<br>
+      Which one feels like you right now?<br>
+    </p>
+
+    <div class="path-choice">
+      <button class="path-btn" onclick="goTo('screen-color')">
+        <span class="path-btn-title">Choose by color</span>
+        <span class="path-btn-sub">I'll let instinct guide me</span>
+      </button>
+      <div class="path-divider">or</div>
+      <button class="path-btn path-btn-reflect" onclick="goTo('screen-reflect')">
+        <span class="path-btn-title">Share how you're feeling</span>
+        <span class="path-btn-sub">Let the cards find me</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 2A — Choose a Color  (Path 1)
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-color">
+
+    <p class="screen-title">
+      Which color is calling to you<br>in this moment?
+    </p>
+    <div class="color-grid" id="colorGrid"></div>
+    <button class="soft-btn back-btn" onclick="goTo('screen-landing')">← back</button>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 2B — Reflection Input  (Path 2)
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-reflect">
+
+    <p class="screen-title" style="margin-bottom:0.75rem;">
+      In a single, few words, or sentences,<br>how are you feeling right now?
+    </p>
+    <p class="screen-subtitle">There's no right answer.</p>
+
+    <div class="reflect-area">
+      <textarea
+        id="reflectInput"
+        class="reflect-input"
+        placeholder="write freely..."
+        rows="4"
+        maxlength="500"
+      ></textarea>
+      <button class="begin-btn" onclick="submitReflection()">
+        let the cards listen
+      </button>
+    </div>
+
+    <button class="soft-btn back-btn" onclick="goTo('screen-landing')">← back</button>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 3 — Listening  (Path 2 loading)
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-listening">
+
+    <div class="listening-anim">
+      <div class="listen-dot"></div>
+      <div class="listen-dot"></div>
+      <div class="listen-dot"></div>
+    </div>
+    <p class="listening-text" id="listeningText">the cards are listening</p>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 4 — Choose a Card  (Path 1)
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-pick">
+
+    <p class="screen-title">
+      Two cards rest before you.<br>Choose the shade that feels right to you.
+    </p>
+    <div class="card-choice-area" id="cardChoiceArea"></div>
+    <a href="#" class="pick-back-link" onclick="goTo('screen-color'); return false;">back</a>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 5 — Your Interpretation
+       Appears after reveal, before meaning.
+       Visitor writes their own reading first.
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-interpret">
+
+    <div id="interpretCardWrapper"></div>
+
+    <div class="interpret-area">
+      <p class="interpret-prompt">
+        Before reading what this card means —<br>
+        what does it bring up for you?
+      </p>
+      <textarea
+        id="interpretInput"
+        class="reflect-input"
+        placeholder="a word, a feeling, a memory..."
+        rows="3"
+        maxlength="300"
+      ></textarea>
+      <div class="interpret-btns">
+        <button class="begin-btn" onclick="goTo('screen-deep')">go deeper</button>
+        <button class="soft-btn" onclick="goTo('screen-deep')" style="margin-top:0; border:none; opacity:0.4;">skip</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 6 — Card Revealed
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-reveal">
+
+    <div id="revealedCardWrapper"></div>
+    <div class="reveal-area">
+      <button class="soft-btn" onclick="goToInterpret()">
+        What does this mean?
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 7 — Deep Meaning
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-deep">
+
+    <div id="deepCardWrapper"></div>
+    <div class="deep-text" id="deepText"></div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 8 — Wander the Colors
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-wander">
+    <p class="screen-title wander-title">wander the colors</p>
+    <div class="wander-color-label" id="wanderColorLabel"></div>
+    <p class="wander-whisper" id="wanderWhisper"></p>
+    <div class="wander-controls">
+      <button class="soft-btn" onclick="stepWander(-1)">Previous</button>
+      <button class="soft-btn" id="wanderPauseBtn" onclick="toggleWanderPlayback()">Pause</button>
+      <button class="soft-btn" onclick="stepWander(1)">Next</button>
+    </div>
+    <div class="wander-controls">
+      <button class="soft-btn" onclick="stopWander('deep')">Back to reading</button>
+      <button class="soft-btn" onclick="stopWander('reset')">Draw again</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 9 — Leave a Trace (optional feedback)
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-feedback">
+    <div class="feedback-fade-root" id="feedbackFadeRoot">
+      <p class="screen-title feedback-title" id="feedbackTitle" style="margin-bottom:0.5rem;">leave a trace</p>
+      <p class="screen-subtitle feedback-purpose">Optional—Leave a small trace to help future color picks feel more true.</p>
+      <p class="screen-subtitle" id="feedbackCardHint">You drew …</p>
+
+      <div class="reflect-area feedback-area">
+        <div class="feedback-scale" role="radiogroup" aria-label="How well this card resonated">
+          <label class="feedback-option">
+            <input type="radio" name="feedbackResonance" value="right">
+            <span>yes</span>
+          </label>
+          <label class="feedback-option">
+            <input type="radio" name="feedbackResonance" value="close">
+            <span>almost</span>
+          </label>
+          <label class="feedback-option">
+            <input type="radio" name="feedbackResonance" value="off">
+            <span>not quite</span>
+          </label>
+        </div>
+
+        <textarea
+          id="feedbackInput"
+          class="reflect-input"
+          placeholder="Optional: one line—what would've fit better?"
+          rows="3"
+          maxlength="400"
+        ></textarea>
+
+        <div class="wander-controls">
+          <button class="soft-btn" onclick="submitFeedbackEntry()">leave this here</button>
+          <button class="soft-btn" onclick="goTo('screen-deep')">back to reading</button>
+        </div>
+
+        <div class="feedback-admin" id="feedbackAdmin" hidden>
+          <a href="#" class="feedback-admin-link" onclick="exportFeedbackEntries(); return false;">export notes</a>
+          <span class="feedback-admin-sep">·</span>
+          <a href="#" class="feedback-admin-link" onclick="clearFeedbackEntries(); return false;">clear notes</a>
+        </div>
+
+        <p class="screen-subtitle" id="feedbackCount" style="margin:0.2rem 0 0;">saved notes: 0</p>
+        <p class="screen-subtitle" id="feedbackStatus" style="margin:0.2rem 0 0;"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stay-here-overlay" id="stayHereOverlay">
+    <p class="stay-here-label">stay here</p>
+    <div class="stay-here-actions">
+      <button class="soft-btn" onclick="exitStayHere()">Return to reading</button>
+      <button class="soft-btn" onclick="resetAll()">Draw again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
