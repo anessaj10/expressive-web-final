@@ -844,6 +844,18 @@ body.stay-here #deepCardWrapper {
   text-align: center;
 }
 
+#screen-feedback .feedback-title {
+  margin-bottom: 0.65rem;
+}
+
+#screen-feedback #feedbackCardHint {
+  margin-bottom: 1.5rem;
+}
+
+#screen-feedback .feedback-area {
+  gap: 1.5rem;
+}
+
 /* Cross-fade when opening leave-a-trace (inner panel only). */
 .feedback-fade-root {
   width: 100%;
@@ -869,6 +881,17 @@ body.stay-here #deepCardWrapper {
 
 .feedback-area {
   max-width: 620px;
+}
+
+.feedback-resonance-prompt {
+  width: 100%;
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: rgba(232,224,213,0.72);
+  line-height: 1.5;
 }
 
 .feedback-scale {

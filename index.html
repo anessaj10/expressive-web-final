@@ -209,12 +209,13 @@
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-feedback">
     <div class="feedback-fade-root" id="feedbackFadeRoot">
-      <p class="screen-title feedback-title" id="feedbackTitle" style="margin-bottom:0.5rem;">leave a trace</p>
+      <p class="screen-title feedback-title" id="feedbackTitle">leave a trace</p>
       <p class="screen-subtitle feedback-purpose">Optional—Leave a small trace to help future color picks feel more true.</p>
       <p class="screen-subtitle" id="feedbackCardHint">You drew …</p>
 
       <div class="reflect-area feedback-area">
-        <div class="feedback-scale" role="radiogroup" aria-label="How well this card resonated">
+        <p class="feedback-resonance-prompt" id="feedbackResonancePrompt">Did this resonate?</p>
+        <div class="feedback-scale" role="radiogroup" aria-labelledby="feedbackResonancePrompt">
           <label class="feedback-option">
             <input type="radio" name="feedbackResonance" value="right">
             <span>yes</span>
@@ -232,7 +233,7 @@
         <textarea
           id="feedbackInput"
           class="reflect-input"
-          placeholder="Optional: one line—what would've fit better?"
+          placeholder="Optional: anything that felt right, or that you wished were different?"
           rows="3"
           maxlength="400"
         ></textarea>
